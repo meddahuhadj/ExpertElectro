@@ -9,6 +9,7 @@ Assistant intelligent de diagnostic, analyse et maintenance électrique / élect
 - `sw.js` — Service Worker (cache l'app shell pour un chargement hors-ligne fiable)
 - `icons/` — icônes PWA (192, 512, maskable, apple-touch-icon)
 - `render.yaml` — Blueprint de déploiement Render (Static Site)
+- `vercel.json` — configuration Vercel (en-têtes de cache pour `sw.js`/`manifest.json`)
 
 ## Clé API
 
@@ -17,14 +18,28 @@ utilisateur saisit sa propre clé API (obtenue sur [Google AI Studio](https://ai
 elle est stockée uniquement dans le `localStorage` de son navigateur, jamais
 envoyée ailleurs qu'à l'API Google. Aucune clé n'est présente dans ce dépôt.
 
-## Déployer sur Render
+## Déployer sur Vercel (recommandé)
 
-### Option A — Blueprint (recommandé)
+1. Poussez ce dossier sur un dépôt GitHub (voir plus bas) — déjà fait pour
+   `meddahuhadj/ExpertElectro`.
+2. Sur [vercel.com/new](https://vercel.com/new), connectez votre compte GitHub
+   si ce n'est pas déjà fait, puis **Import** sur le dépôt `ExpertElectro`.
+3. Vercel détecte un site statique (aucun framework) : laissez les réglages
+   par défaut — *Build Command* et *Output Directory* vides/racine.
+4. **Deploy**. En ligne en HTTPS en moins d'une minute, à une URL du type
+   `https://expert-electro.vercel.app`.
+5. `vercel.json` définit déjà les en-têtes de cache nécessaires pour que les
+   mises à jour de `sw.js`/`manifest.json` soient prises en compte rapidement.
 
-1. Poussez ce dossier sur un dépôt GitHub (voir plus bas).
-2. Sur [render.com](https://dashboard.render.com), **New +** → **Blueprint**.
-3. Sélectionnez le dépôt. Render détecte `render.yaml` et configure tout automatiquement.
-4. **Apply** — le site est en ligne en quelques dizaines de secondes, en HTTPS.
+Chaque `git push` sur `main` redéploie automatiquement.
+
+## Déployer sur Render (alternative)
+
+### Option A — Blueprint
+
+1. Sur [render.com](https://dashboard.render.com), **New +** → **Blueprint**.
+2. Sélectionnez le dépôt. Render détecte `render.yaml` et configure tout automatiquement.
+3. **Apply** — le site est en ligne en quelques dizaines de secondes, en HTTPS.
 
 ### Option B — Manuel
 
@@ -34,9 +49,9 @@ envoyée ailleurs qu'à l'API Google. Aucune clé n'est présente dans ce dépô
 4. Publish Directory : `.` (racine du dépôt, ou `site` si ce dossier est un sous-dossier d'un dépôt plus large)
 5. **Create Static Site**.
 
-Une fois en ligne, HTTPS est automatique — le Service Worker et l'installation
-en PWA (icône sur l'écran d'accueil, mode hors-ligne) ne fonctionnent qu'en
-HTTPS ou en localhost, jamais en `file://`.
+Sur les deux plateformes, HTTPS est automatique — le Service Worker et
+l'installation en PWA (icône sur l'écran d'accueil, mode hors-ligne) ne
+fonctionnent qu'en HTTPS ou en localhost, jamais en `file://`.
 
 ## Pousser sur GitHub
 
@@ -63,6 +78,8 @@ cd site
 python -m http.server 8080
 # puis ouvrir http://localhost:8080
 ```
+
+(Si Python n'est pas disponible : `npx serve .` fait la même chose avec Node.)
 
 ## Mettre à jour après un premier déploiement
 
