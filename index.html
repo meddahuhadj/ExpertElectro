@@ -6,12 +6,8 @@
   <meta name="description" content="HADJ Expert Électro GLOBAL v5 — Analyseur Universel de Circuits (Vision+IA) + Expert vocal + Vision Pro + Calculs DZ + Sécurité + PDF + Atelier">
   <meta name="theme-color" content="#F5A623">
   <title>HADJ EXPERT ÉLECTRO — GLOBAL v5</title>
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="HADJ Expert">
+  <!-- PWA manifest inline -->
+  <link rel="manifest" id="pwaManifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
   <style>
@@ -4485,17 +4481,24 @@ let searchTerm = '';
       if(pwaPrompt){pwaPrompt.prompt();pwaPrompt.userChoice.then(r=>{if(r.outcome==='accepted')showToast('📱 App installée!');pwaPrompt=null;});}
       else showToast('ℹ️ Ouvrez dans Chrome mobile pour installer');
     };
-    // Manifest réel : voir ./manifest.json (lié dans <head>). L'ancienne
-    // version générait un manifest et un Service Worker via des URL blob:,
-    // ce qui n'est pas fiable pour l'enregistrement d'un vrai Service Worker
-    // installable (restriction des navigateurs sur les scripts blob:) — d'où
-    // le passage à des fichiers réels (manifest.json, sw.js) servis par
-    // l'hébergeur. Un Service Worker exige HTTPS ou localhost : en file://,
-    // l'enregistrement est ignoré proprement (l'app continue de fonctionner).
-    if('serviceWorker' in navigator && location.protocol!=='file:'){
-      window.addEventListener('load',()=>{
-        navigator.serviceWorker.register('./sw.js').catch(()=>{});
-      });
+    // Generate PWA manifest
+    (function(){
+      const manifest={name:'HADJ Expert Électro',short_name:'HADJ Expert',start_url:'./',display:'standalone',background_color:'#0A0C10',theme_color:'#F5A623',icons:[{src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23F5A623"/><text y="75" font-size="65" text-anchor="middle" x="50">⚡</text></svg>',sizes:'192x192',type:'image/svg+xml'}]};
+      const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const link=document.getElementById('pwaManifest');
+      if(link) link.href=url;
+    })();
+
+    // Service worker for offline
+    if('serviceWorker' in navigator){
+      const swCode=`
+        const CACHE='hadj-v4';
+        self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./'])))});
+        self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response('Hors ligne — données locales disponibles',{headers:{'Content-Type':'text/plain'}}))))});
+      `;
+      const swBlob=new Blob([swCode],{type:'text/javascript'});
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
     }
 
     // ═══════════════════════════════════════════════════════
@@ -4697,7 +4700,18 @@ let searchTerm = '';
           thermostat_frigo:{sym:'ic',pins:2,cat:'capteur',profile:'thermostat_frigo'},
           relais_demarrage_compresseur:{sym:'ic',pins:3,cat:'commande',profile:'relais_demarrage_compresseur'},
           sonde_four:{sym:'ic',pins:2,cat:'capteur',profile:'sonde_four'},
-          ventilateur_electromenager:{sym:'ic',pins:2,cat:'sortie',profile:'ventilateur_electromenager'}
+          ventilateur_electromenager:{sym:'ic',pins:2,cat:'sortie',profile:'ventilateur_electromenager'},
+          // ── Photovoltaïque / courant continu (panneaux, onduleurs solaires, batteries) ──
+          panneau_solaire:{sym:'ic',pins:2,cat:'source',profile:'panneau_solaire'},
+          onduleur_solaire:{sym:'ic',pins:4,cat:'source',profile:'onduleur_solaire'},
+          micro_onduleur:{sym:'ic',pins:4,cat:'source',profile:'micro_onduleur'},
+          onduleur_hybride:{sym:'ic',pins:6,cat:'source',profile:'onduleur_hybride'},
+          regulateur_charge_solaire:{sym:'ic',pins:6,cat:'commande',profile:'regulateur_charge_solaire'},
+          batterie_solaire:{sym:'battery',pins:2,cat:'source',profile:'batterie_solaire'},
+          disjoncteur_dc:{sym:'ic',pins:2,cat:'protection',profile:'disjoncteur_dc'},
+          parafoudre_dc:{sym:'ic',pins:2,cat:'protection',profile:'parafoudre_dc'},
+          connecteur_mc4:{sym:'ic',pins:2,cat:'passif',profile:'connecteur_mc4'},
+          boitier_jonction_panneau:{sym:'ic',pins:3,cat:'protection',profile:'boitier_jonction_panneau'}
         },
         // Pinouts de référence (sous-ensemble courant, extensible)
         pinouts:{
@@ -5003,7 +5017,38 @@ let searchTerm = '';
             test:'Comparer la température réelle (thermomètre de four indépendant) à la consigne affichée sur plusieurs paliers ; vérifier la connexion de la sonde avant de la remplacer.'},
           ventilateur_electromenager:{typ:'Ventilateur de refroidissement/circulation (four à chaleur tournante, réfrigérateur no-frost, sèche-linge) ; moteur généralement à courant continu ou asynchrone selon l\'appareil.',
             faults:['Roulement usé → bruit croissant, puis blocage complet','Pales encrassées/obstruées (poussière, givre en cas de mauvais dégivrage) → ventilation réduite, surchauffe/givrage excessif en aval','Bobinage moteur coupé → aucune rotation, souvent accompagné d\'un code défaut sur les modèles électroniques'],
-            test:'Vérifier la rotation libre à la main hors tension (doit tourner sans point dur) ; mesurer la continuité du bobinage avant de conclure à une panne électrique plutôt que mécanique.'}
+            test:'Vérifier la rotation libre à la main hors tension (doit tourner sans point dur) ; mesurer la continuité du bobinage avant de conclure à une panne électrique plutôt que mécanique.'},
+          // ── Photovoltaïque / courant continu ──
+          panneau_solaire:{typ:'Cellules silicium (mono/polycristallin) en série dans un cadre étanche ; tension et courant nominaux (Voc, Isc, Vmp, Imp) marqués sur l\'étiquette arrière. Boîtier de jonction avec diodes bypass intégrées.',
+            faults:['Point chaud (hot spot) localisé → cellule fissurée ou masquée en permanence (ombre, salissure), repérable à la caméra thermique','Diode bypass du boîtier de jonction en court-circuit ou coupée → chute de production sur la zone concernée','Délamination / infiltration d\'humidité (panneau vieillissant) → baisse progressive de rendement, parfois visible en façade (jaunissement, bulles)','Micro-fissures de cellules après choc (grêle, manutention) → perte de puissance parfois invisible à l\'œil nu'],
+            test:'Mesurer Voc (circuit ouvert) et Isc (court-circuit) au multimètre et comparer à la plaque signalétique ; une caméra thermique sous ensoleillement révèle immédiatement points chauds et cellules défaillantes.'},
+          onduleur_solaire:{typ:'Reçoit le DC d\'une ou plusieurs strings de panneaux, recherche le point de puissance maximale (MPPT) et injecte du AC synchronisé au réseau ; se déconnecte automatiquement en cas de coupure secteur (anti-îlotage).',
+            faults:['Code défaut affiché à l\'écran/appli → toujours consulter en premier, la plupart des onduleurs journalisent la cause précise','Tension d\'entrée DC hors plage MPPT (trop/trop peu de panneaux en série) → onduleur qui ne démarre pas ou bride la production','Ventilateur de refroidissement bloqué/encrassé → coupure thermique en pleine puissance, surtout en été','Défaut d\'isolement DC détecté → infiltration d\'humidité dans le câblage ou les connecteurs côté panneaux'],
+            test:'Consulter le code défaut et l\'historique de production avant toute autre action ; mesurer la tension DC d\'entrée à vide et la comparer à la plage MPPT indiquée sur la fiche technique.'},
+          micro_onduleur:{typ:'Convertit le DC d\'un seul panneau en AC directement sous le module ; communique en courant porteur sur le câble AC commun pour le monitoring individuel.',
+            faults:['Un seul panneau en sous-production, les autres normaux → micro-onduleur de ce panneau suspect avant le panneau lui-même','Perte de communication/monitoring d\'une unité → ne signifie pas forcément une panne de production, à vérifier séparément','Défaillance liée à la chaleur sous le panneau, peu accessible → souvent à remplacer plutôt qu\'à réparer sur site'],
+            test:'Comparer la production de chaque panneau via le monitoring : un écart isolé sur un seul point pointe vers son micro-onduleur ou son panneau, pas vers l\'installation entière.'},
+          onduleur_hybride:{typ:'Combine les fonctions d\'un onduleur solaire et d\'un chargeur de batterie ; gère les priorités entre autoconsommation, charge batterie, injection réseau et secours coupure selon la configuration.',
+            faults:['Batterie qui ne se charge plus alors que les panneaux produisent → paramétrage des priorités de charge à vérifier avant de suspecter le matériel','Bascule secteur/batterie qui échoue en coupure réseau → fonction de secours mal configurée ou désactivée','Surchauffe en charge et décharge simultanées → ventilation insuffisante, dimensionnement à revoir'],
+            test:'Consulter l\'écran/appli pour l\'état des flux d\'énergie en temps réel (panneaux → charge → batterie → réseau) — la plupart des anomalies de configuration s\'y voient immédiatement.'},
+          regulateur_charge_solaire:{typ:'MPPT (meilleur rendement, recherche le point de puissance maximale) ou PWM (plus simple, moins cher) ; protège la batterie de la surcharge et empêche le retour de courant nocturne des panneaux.',
+            faults:['Batterie en surcharge chronique → seuils de tension mal réglés pour la technologie de batterie utilisée (plomb vs lithium)','Absence de charge → régulateur en défaut, ou câblage panneaux inversé (polarité)','Surchauffe/coupure thermique en plein soleil → dimensionnement insuffisant par rapport au courant de la string'],
+            test:'Vérifier la tension côté panneaux (doit être proche de Voc à vide) et côté batterie (doit correspondre à l\'état de charge attendu) ; contrôler que les seuils programmés correspondent à la chimie de la batterie installée.'},
+          batterie_solaire:{typ:'Conçue pour des décharges profondes répétées (contrairement à une batterie de démarrage) ; capacité en Ah, tension nominale (12/24/48V), et pour le lithium un BMS intégré protégeant contre surcharge/décharge profonde.',
+            faults:['Capacité réelle très inférieure à la capacité nominale → vieillissement normal ou décharges profondes répétées ayant accéléré l\'usure','BMS qui coupe la batterie (lithium) → généralement une protection qui a fonctionné correctement, chercher la cause (déséquilibre cellules, température) avant de réarmer','Sulfatation (plomb/AGM) après stockage prolongé sans charge → capacité effondrée, parfois récupérable par une charge lente adaptée','Déséquilibre entre éléments d\'un pack en série (surtout lithium) → capacité globale limitée par l\'élément le plus faible'],
+            test:'Mesurer la tension à vide après repos (pas juste après charge/décharge) et comparer à la courbe tension/état de charge de la technologie ; pour le lithium, consulter les données du BMS si accessibles (tension par cellule, température).'},
+          disjoncteur_dc:{typ:'Conçu pour couper un arc en courant continu, qui ne s\'éteint pas naturellement au passage par zéro comme en AC ; polarité et sens de câblage à respecter, tension DC maximale de coupure marquée.',
+            faults:['Utilisation erronée d\'un disjoncteur AC en DC → incapable d\'éteindre l\'arc de coupure, risque d\'incendie sérieux','Contacts endommagés après coupures répétées d\'un courant proche de sa limite','Déclenchement intempestif si le calibre est sous-dimensionné par rapport au courant de court-circuit (Isc) des strings'],
+            test:'⚠️ Vérifier impérativement qu\'il s\'agit d\'un modèle certifié DC (marquage explicite) et que sa tension de coupure DC dépasse la tension en circuit ouvert de l\'installation (Voc à froid, la plus élevée).'},
+          parafoudre_dc:{typ:'Installé côté panneaux (avant l\'onduleur) et parfois côté batteries ; comme le disjoncteur DC, doit être un modèle spécifiquement certifié pour le courant continu.',
+            faults:['Cartouche usée après plusieurs surtensions → voyant d\'état indiquant un remplacement nécessaire, comme en AC','Modèle AC utilisé par erreur en DC → protection inefficace et risque d\'arc soutenu en cas de déclenchement'],
+            test:'Vérifier le voyant d\'état/indicateur de fin de vie ; contrôler que le modèle installé est bien certifié DC avec une tension assignée supérieure au Voc maximal de l\'installation (froid inclus).'},
+          connecteur_mc4:{typ:'Connecteur à verrouillage, étanche (IP67), polarisé (mâle/femelle) ; point de raccordement le plus exposé aux intempéries de toute l\'installation DC.',
+            faults:['Échauffement / noircissement → mauvais sertissage à l\'origine ou connecteurs de marques incompatibles assemblés ensemble','Infiltration d\'eau par un verrouillage mal enclenché → corrosion interne, hausse de résistance de contact','Arc électrique au débranchement en charge → ne jamais déconnecter un connecteur MC4 sous charge (courant DC), toujours couper en amont d\'abord'],
+            test:'Inspection visuelle (traces de noircissement, fissures) et mesure de température au point de connexion sous charge (caméra thermique ou infrarouge) ; comparer aux connecteurs voisins.'},
+          boitier_jonction_panneau:{typ:'Regroupe les extrémités des strings de cellules internes au panneau et les diodes bypass qui limitent l\'impact d\'un ombrage partiel ou d\'une cellule défaillante.',
+            faults:['Diode bypass en court-circuit → une portion du panneau reste en dérivation permanente, perte de puissance localisée','Diode bypass coupée (circuit ouvert) → aucune protection en cas d\'ombrage partiel, risque d\'échauffement de la zone ombragée','Boîtier mal recollé/étanchéité dégradée → infiltration d\'humidité, corrosion des soudures internes'],
+            test:'Mesurer la tension aux bornes de sortie du panneau partiellement ombragé et comparer au comportement attendu ; caméra thermique pour repérer un échauffement anormal du boîtier.'}
         },
         // Règles de diagnostic (chaque règle = fonction pure sur le graphe)
         faultRules:[], // remplies plus bas
@@ -5065,6 +5110,22 @@ let searchTerm = '';
           if(/varistor|\bmov\b|parasurtens/.test(t)) return this.components.varistor;
           if(/ntc|thermist.*ntc|\bctn\b/.test(t)) return this.components.ntc;
           if(/\bldr\b|photorésist|ldr34|gl5\d\d/.test(t)) return this.components.ldr;
+          // Photovoltaïque / courant continu — vérifiés EN PREMIER parmi les cas
+          // spécifiques : "onduleur solaire" ne doit pas retomber sur l'onduleur
+          // de secours (UPS), "régulateur de charge" ne doit pas retomber sur un
+          // régulateur linéaire 78xx, "batterie solaire" ne doit pas retomber sur
+          // la pile générique, "disjoncteur/parafoudre DC" ne doit pas retomber
+          // sur leurs équivalents AC (mêmes leçons que les lots précédents).
+          if(/panneau.{0,10}(solaire|photovolta[iï]que)|module.{0,10}photovolta[iï]que/.test(t)) return this.components.panneau_solaire;
+          if(/micro.{0,4}onduleur/.test(t)) return this.components.micro_onduleur;
+          if(/onduleur.{0,10}hybride/.test(t)) return this.components.onduleur_hybride;
+          if(/onduleur.{0,10}(solaire|photovolta[iï]que|\bpv\b|string)/.test(t)) return this.components.onduleur_solaire;
+          if(/r[ée]gulateur.{0,10}charge|contr[ôo]leur.{0,10}charge|mppt/.test(t)) return this.components.regulateur_charge_solaire;
+          if(/batterie.{0,10}(solaire|lithium|\blfp\b|\bagm\b|gel|cycle.?profond)|batterie.{0,6}stockage/.test(t)) return this.components.batterie_solaire;
+          if(/disjoncteur.{0,20}(dc|continu)/.test(t)) return this.components.disjoncteur_dc;
+          if(/parafoudre.{0,20}(dc|continu)/.test(t)) return this.components.parafoudre_dc;
+          if(/\bmc4\b|connecteur.{0,10}mc4/.test(t)) return this.components.connecteur_mc4;
+          if(/bo[iî]tier.{0,10}jonction|diode.{0,6}bypass/.test(t)) return this.components.boitier_jonction_panneau;
           // Automatisme du bâtiment / domotique / sécurité — vérifiés AVANT
           // les familles génériques (ex. "variateur d'éclairage" ne doit pas
           // retomber sur "variateur" industriel, "volet roulant moteur" ne
@@ -5161,7 +5222,7 @@ let searchTerm = '';
           if(/mosfet|nmos/.test(t)) return this.components.mosfet_n;
           if(/555/.test(t)) return this.components.timer_555;
           if(/opamp|ampli|op.?amp|tl0/.test(t)) return this.components.opamp;
-          if(/regul|ldo/.test(t)) return this.components.regulator;
+          if(/r[ée]gul|ldo/.test(t)) return this.components.regulator;
           if(/arduino|uno|nano|mega/.test(t)) return this.components.arduino;
           if(/esp32|esp8266|wemos/.test(t)) return this.components.esp32;
           if(/raspberry|pico|rp2040|stm32|atmega|mcu|microcont/.test(t)) return this.components.mcu;
