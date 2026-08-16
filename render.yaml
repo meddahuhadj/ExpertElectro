@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: hadj-expert-electro
+    env: static
+    buildCommand: ""
+    staticPublishPath: ./
+    autoDeploy: true
+    headers:
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache, no-store, must-revalidate
+      - path: /manifest.json
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /
+        destination: /index.html

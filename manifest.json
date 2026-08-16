@@ -1,0 +1,21 @@
+{
+  "name": "HADJ EXPERT ÉLECTRO",
+  "short_name": "HADJ Expert",
+  "description": "Assistant intelligent de diagnostic, analyse et maintenance électrique, électronique, bâtiment et industrie.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#08090C",
+  "theme_color": "#F5A623",
+  "orientation": "any",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "education"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
