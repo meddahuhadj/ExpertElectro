@@ -10,6 +10,8 @@ Assistant intelligent de diagnostic, analyse et maintenance électrique / élect
 - `icons/` — icônes PWA (192, 512, maskable, apple-touch-icon)
 - `render.yaml` — Blueprint de déploiement Render (Static Site)
 - `vercel.json` — configuration Vercel (en-têtes de cache pour `sw.js`/`manifest.json`)
+- `src/` — Instrument Engine (oscilloscope, moteur de signal/FFT, drivers d'instruments…),
+  modules ES chargés directement par `index.html` via `<script type="module">` (voir plus bas).
 
 ## Clé API
 
@@ -80,6 +82,28 @@ python -m http.server 8080
 ```
 
 (Si Python n'est pas disponible : `npx serve .` fait la même chose avec Node.)
+
+## Instrument Engine — `src/`
+
+`src/core/instruments/`, `src/core/signal/` et `src/core/diagnostics/` sont des modules ES
+purs (sans DOM, sans dépendance externe) qui implémentent le moteur de mesure de l'onglet
+🔬 Oscilloscope : format de données standard (`Waveform`/`Measurement`), sources
+(simulation/import/USB/Bluetooth), analyse de signal (`SignalAnalyzer`), FFT réelle
+(`FFTAnalyzer`) et comparaison signal attendu/mesuré (`WaveformComparator`). `src/ui/oscilloscope-ui.js`
+est le seul fichier qui touche le DOM — il relie ces modules à l'onglet Oscilloscope de
+`index.html` via un second `<script type="module">`, sans toucher au reste de l'application.
+
+Ces modules sont testables sous Node sans navigateur ni build :
+
+```bash
+cd site
+node --test $(find src -name "*.test.js")   # bash/git-bash
+# ou, sans find : node --test src/core/**/*.test.js  (nécessite un shell avec globstar)
+```
+
+Il n'existe pas de `package.json`/CI dans ce dépôt : ces tests sont à lancer manuellement en
+local avant un déploiement qui touche `src/`. La check-list de fumée manuelle (navigateur réel)
+est décrite dans le plan d'implémentation de l'Instrument Engine.
 
 ## Mettre à jour après un premier déploiement
 

@@ -393,6 +393,14 @@
        ══════════════════════════════════════ */
 
     /* SOS Emergency Button */
+    /* Bouton flottant permanent — accessible depuis N'IMPORTE QUEL onglet,
+       pas seulement depuis Calculer→Atelier où se trouvait le seul accès
+       jusqu'ici. position:fixed + z-index élevé pour rester au-dessus du
+       contenu scrollable, mais sous les overlays modaux (sos-overlay=9999). */
+    .sos-fab{position:fixed;right:1rem;bottom:7.2rem;z-index:600;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#FF0000,#CC0000);border:3px solid #FF6666;color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(255,0,0,.55);animation:sosfabpulse 2.4s infinite;}
+    .sos-fab:hover{transform:scale(1.08);}
+    @keyframes sosfabpulse{0%,100%{box-shadow:0 4px 18px rgba(255,0,0,.55)}50%{box-shadow:0 4px 28px rgba(255,0,0,.85)}}
+    @media(max-width:480px){.sos-fab{width:46px;height:46px;font-size:1.2rem;right:.6rem;bottom:6.6rem;}}
     .sos-overlay{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;}
     .sos-overlay.show{display:flex;}
     .sos-btn-big{background:linear-gradient(135deg,#FF0000,#CC0000);border:4px solid #FF6666;border-radius:50%;width:180px;height:180px;font-size:3rem;font-weight:900;color:#fff;cursor:pointer;animation:sosflash 1s infinite;box-shadow:0 0 60px rgba(255,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;}
@@ -553,6 +561,7 @@
           <button class="panel-group" data-group="calculer"><span class="pg-ic">🧮</span>Calculer</button>
           <button class="panel-group" data-group="securite"><span class="pg-ic">🛡️</span>Sécurité</button>
           <button class="panel-group" data-group="atelier"><span class="pg-ic">🛠️</span>Atelier</button>
+          <button class="panel-group" data-group="instruments"><span class="pg-ic">📡</span>Instruments</button>
         </div>
         <div class="panel-tabs">
           <button class="panel-tab active" data-tab="analyse" data-group="analyser"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>Analyse</button>
@@ -565,6 +574,10 @@
           <button class="panel-tab" data-tab="securite" data-group="securite"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Sécu</button>
           <button class="panel-tab" data-tab="historique" data-group="securite"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Hist.</button>
           <button class="panel-tab" data-tab="atelier" data-group="atelier"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Atelier</button>
+          <button class="panel-tab" data-tab="oscilloscope" data-group="instruments"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h4l2 7 4-14 2 7h6"/></svg>Oscilloscope</button>
+          <button class="panel-tab" data-tab="multimetre" data-group="instruments"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3M3 12a9 9 0 1018 0 9 9 0 00-18 0z"/></svg>Multimètre</button>
+          <button class="panel-tab" data-tab="generateur" data-group="instruments"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h4l2-6 4 12 2-6h6"/></svg>Générateur</button>
+          <button class="panel-tab" data-tab="alimentation" data-group="instruments"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Alimentation</button>
         </div>
 
         <!-- TAB: Analyse -->
@@ -1028,6 +1041,305 @@
     <div id="simFeedback" style="font-family:var(--font-mono);font-size:.75rem;color:var(--accent-g);margin-top:.4rem;min-height:1.5rem;"></div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       V6 — INSTRUMENT ENGINE : 🔬 OSCILLOSCOPE
+       Chaîne réelle : SOURCE (Simulation/Import/USB/Bluetooth) →
+       Waveform standard → Signal Engine → FFT Engine → Diagnostic.
+       Voir src/core/instruments/, src/core/signal/, src/ui/oscilloscope-ui.js.
+  ═══════════════════════════════════════════════════════ -->
+  <style>
+    .osc-note{font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim);margin:.2rem 0 .65rem;}
+    .osc-sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem;margin-bottom:.65rem;}
+    .osc-src{background:var(--bg-card);border:1px solid var(--border);border-radius:.6rem;padding:.65rem .5rem;cursor:pointer;text-align:center;font-family:var(--font-mono);font-size:.7rem;color:var(--text-mid);transition:all .2s;}
+    .osc-src.active{border-color:var(--accent-y);color:var(--accent-y);box-shadow:var(--glow-y);}
+    .osc-src .ic{display:block;font-size:1.3rem;margin-bottom:.25rem;}
+    .osc-src .avail{display:inline-block;font-size:.62rem;margin-left:.3rem;color:var(--text-dim);}
+    .osc-src.unavailable{opacity:.55;}
+    .osc-config{background:var(--bg-card);border:1px solid var(--border);border-radius:.6rem;padding:.6rem;margin-bottom:.65rem;display:none;}
+    .osc-config.active{display:block;}
+    .osc-field-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem;}
+    .osc-field{flex:1;min-width:110px;}
+    .osc-field label{display:block;font-family:var(--font-mono);font-size:.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.15rem;}
+    .osc-field input,.osc-field select{width:100%;background:var(--diag-field-bg);border:1px solid var(--border);border-radius:.35rem;color:var(--text-main);font-family:var(--font-mono);font-size:.72rem;padding:.35rem .5rem;outline:none;}
+    .osc-controls{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.55rem;}
+    .osc-status-pill{font-family:var(--font-mono);font-size:.65rem;padding:.25rem .6rem;border-radius:99px;border:1px solid;margin-left:auto;white-space:nowrap;}
+    .osc-status-pill.st-sim{color:#F5D023;border-color:rgba(245,208,35,.4);background:rgba(245,208,35,.08);}
+    .osc-status-pill.st-real{color:var(--accent-g);border-color:rgba(0,230,138,.4);background:rgba(0,230,138,.08);}
+    .osc-status-pill.st-import,.osc-status-pill.st-detected{color:var(--accent-b);border-color:rgba(0,207,255,.4);background:rgba(0,207,255,.08);}
+    .osc-status-pill.st-none{color:var(--text-dim);border-color:var(--border);background:transparent;}
+    .osc-status-pill.st-err{color:var(--accent-r);border-color:rgba(255,77,77,.4);background:rgba(255,77,77,.08);}
+    .osc-canvas-wrap{position:relative;background:var(--canvas-bg);border:1px solid var(--border);border-radius:.6rem;padding:.4rem;margin-bottom:.5rem;}
+    .osc-canvas-wrap canvas{width:100%;display:block;cursor:crosshair;}
+    .osc-cursor-info{font-family:var(--font-mono);font-size:.65rem;color:var(--accent-b);min-height:1rem;margin-top:.3rem;}
+    .osc-zoom-row{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.6rem;color:var(--text-dim);margin-top:.3rem;}
+    .osc-zoom-row input[type=range]{flex:1;}
+    .osc-measure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:.4rem;margin-bottom:.6rem;}
+    .osc-tile{background:var(--bg-dark);border:1px solid var(--border);border-radius:.4rem;padding:.35rem .5rem;text-align:center;}
+    .osc-tile .lbl{font-family:var(--font-mono);font-size:.58rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.03em;}
+    .osc-tile .val{font-family:var(--font-mono);font-size:.85rem;color:var(--accent-y);font-weight:700;margin-top:.1rem;}
+    .osc-fft-wrap{background:var(--canvas-bg);border:1px solid var(--border);border-radius:.6rem;padding:.4rem;margin-bottom:.5rem;}
+    .osc-fft-wrap canvas{width:100%;display:block;}
+    .osc-fft-readout{display:flex;flex-wrap:wrap;gap:.5rem;font-family:var(--font-mono);font-size:.68rem;color:var(--text-mid);margin-top:.35rem;}
+    .osc-anomaly-list{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.6rem;}
+    .osc-anomaly{font-family:var(--font-mono);font-size:.68rem;padding:.35rem .55rem;border-radius:.4rem;border:1px solid rgba(255,77,77,.35);background:rgba(255,77,77,.08);color:#FFB3B3;}
+    .osc-instr-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:.68rem;}
+    .osc-instr-table td{padding:.35rem .3rem;border-bottom:1px solid var(--border);color:var(--text-mid);}
+    .osc-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.35rem;background:var(--text-dim);}
+    .osc-dot.on{background:var(--accent-g);box-shadow:0 0 6px rgba(0,230,138,.7);}
+    .osc-dot.warn{background:#F5D023;}
+  </style>
+  <div id="tab-oscilloscope-inject" style="display:none">
+    <div class="panel-header"><h3>🔬 OSCILLOSCOPE <small style="font-size:.6rem;color:var(--text-dim);font-weight:400;">(bêta)</small></h3>
+      <div class="panel-actions">
+        <button class="action-btn" onclick="window.HADJ_INSTR?.exportCSV()">⇩ CSV</button>
+        <button class="action-btn" onclick="window.HADJ_INSTR?.capturePNG()">📸 PNG</button>
+        <button class="action-btn" onclick="window.HADJ_INSTR?.addToReport()">📄 + Rapport</button>
+      </div>
+    </div>
+    <div class="osc-note">⚙️ Moteur de mesure réel — la source active est indiquée en permanence. Aucune mesure n'est jamais présentée comme réelle si elle ne l'est pas.</div>
+
+    <div class="osc-sources" id="oscSources">
+      <div class="osc-src active" data-source="simulation" onclick="window.HADJ_INSTR?.selectSource('simulation')"><span class="ic">🟡</span>Simulation</div>
+      <div class="osc-src" data-source="import" onclick="window.HADJ_INSTR?.selectSource('import')"><span class="ic">📂</span>Import CSV/JSON</div>
+      <div class="osc-src" data-source="usb" onclick="window.HADJ_INSTR?.selectSource('usb')"><span class="ic">🔌</span>USB<span class="avail" id="oscUsbAvail">…</span></div>
+      <div class="osc-src" data-source="bluetooth" onclick="window.HADJ_INSTR?.selectSource('bluetooth')"><span class="ic">📶</span>Bluetooth<span class="avail" id="oscBtAvail">…</span></div>
+    </div>
+
+    <div class="osc-config active" id="oscConfigSimulation">
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Forme du signal</label><select id="oscSimType"></select></div>
+        <div class="osc-field"><label>Fréquence (Hz)</label><input type="number" id="oscSimFreq" value="1000" min="0.1" step="1"></div>
+        <div class="osc-field"><label>Amplitude (Vpp)</label><input type="number" id="oscSimAmp" value="5" min="0" step="0.1"></div>
+        <div class="osc-field"><label>Offset (V)</label><input type="number" id="oscSimOffset" value="0" step="0.1"></div>
+      </div>
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Duty cycle (%)</label><input type="number" id="oscSimDuty" value="50" min="1" max="99" step="1"></div>
+        <div class="osc-field"><label>Phase (°)</label><input type="number" id="oscSimPhase" value="0" step="1"></div>
+        <div class="osc-field"><label>Bruit (%)</label><input type="number" id="oscSimNoise" value="2" min="0" max="100" step="0.5"></div>
+        <div class="osc-field" id="oscSimDefectWrap" style="display:none;"><label>Type de défaut</label>
+          <select id="oscSimDefect">
+            <option value="clipping">Écrêtage (clipping)</option>
+            <option value="asymmetry">Asymétrie</option>
+            <option value="harmonicDistortion">Distorsion harmonique</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="osc-config" id="oscConfigImport">
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Fichier CSV / JSON</label><input type="file" id="oscImportFile" accept=".csv,.json,application/json,text/csv" onchange="window.HADJ_INSTR?.onImportFileChange(this)"></div>
+      </div>
+      <div class="osc-note" id="oscImportStatus" data-i18n-dyn="1">Aucun fichier chargé.</div>
+    </div>
+
+    <div class="osc-config" id="oscConfigUsb">
+      <div class="osc-note" id="oscUsbNote" data-i18n-dyn="1">…</div>
+      <button class="calc-btn" onclick="window.HADJ_INSTR?.requestUSB()">🔌 Sélectionner un appareil USB</button>
+    </div>
+
+    <div class="osc-config" id="oscConfigBluetooth">
+      <div class="osc-note" id="oscBtNote" data-i18n-dyn="1">…</div>
+      <button class="calc-btn" onclick="window.HADJ_INSTR?.requestBluetooth()">📶 Sélectionner un appareil Bluetooth</button>
+    </div>
+
+    <div class="osc-controls">
+      <button class="action-btn" onclick="window.HADJ_INSTR?.acquireMono()">▶ Mono</button>
+      <button class="action-btn" id="oscBtnContinuous" onclick="window.HADJ_INSTR?.toggleContinuous()">⏵ Continu</button>
+      <button class="action-btn" onclick="window.HADJ_INSTR?.capture()">⏸ Capturer</button>
+      <span class="osc-status-pill st-none" id="oscStatusPill" data-i18n-dyn="1">⚪ NON CONNECTÉ</span>
+    </div>
+
+    <div class="osc-canvas-wrap">
+      <canvas id="oscCanvas" width="900" height="260"></canvas>
+      <div class="osc-cursor-info" id="oscCursorInfo" data-i18n-dyn="1">Glissez sur le graphe pour placer les curseurs.</div>
+      <div class="osc-zoom-row"><span>Zoom</span><input type="range" id="oscZoom" min="1" max="100" value="100" oninput="window.HADJ_INSTR?.onZoomChange(this.value)"><span id="oscZoomLabel">100%</span></div>
+    </div>
+
+    <div class="osc-measure-grid" id="oscMeasureGrid" data-i18n-dyn="1"></div>
+
+    <div class="osc-anomaly-list" id="oscAnomalies" data-i18n-dyn="1"></div>
+
+    <div class="osc-fft-wrap">
+      <canvas id="oscFftCanvas" width="900" height="140"></canvas>
+      <div class="osc-fft-readout" id="oscFftReadout" data-i18n-dyn="1">
+        <span>Fondamentale : —</span><span>THD : —</span><span>Plancher de bruit : —</span>
+      </div>
+    </div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>🎯 POINT DE TEST &amp; DIAGNOSTIC GUIDÉ</h3></div>
+    <div id="oscTpWrap">
+      <div class="osc-note" id="oscTpEmpty">Aucun scan de circuit disponible — utilisez « 🔬 SCAN CIRCUIT COMPLET » (Analyseur de circuits) pour activer la comparaison aux points de test.</div>
+      <div id="oscTpBody" style="display:none;">
+        <div class="osc-note" id="oscTpCircuit" data-i18n-dyn="1"></div>
+        <div class="osc-field-row">
+          <div class="osc-field" style="flex:2;"><label>Point de test</label><select id="oscTpSelect" onchange="window.HADJ_INSTR?.onTpSelectChange(this.value)"></select></div>
+        </div>
+        <div class="osc-note" id="oscTpExpected" data-i18n-dyn="1"></div>
+        <div class="osc-controls">
+          <button class="action-btn" onclick="window.HADJ_INSTR?.compareToTestPoint()">📍 Comparer au point sélectionné</button>
+          <button class="calc-btn" style="background:linear-gradient(135deg,rgba(0,207,255,.85),rgba(0,130,180,.85));" onclick="window.HADJ_INSTR?.runAutoDiagnostic()">🤖 Diagnostic automatique</button>
+        </div>
+        <div id="oscDiagLog" data-i18n-dyn="1"></div>
+      </div>
+    </div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>📡 MES INSTRUMENTS</h3>
+      <div class="panel-actions"><button class="action-btn" onclick="window.HADJ_INSTR?.searchInstruments()">🔍 Rechercher</button></div>
+    </div>
+    <table class="osc-instr-table"><tbody id="oscInstrumentsBody" data-i18n-dyn="1"></tbody></table>
+    <div class="osc-note">🔋 Pilotage de l'alimentation programmable : onglet dédié 🔋 Alimentation.</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       V6 Phase 2 — INSTRUMENT ENGINE : 📏 MULTIMÈTRE (DMM + OCR caméra)
+       Voir src/core/instruments/{sources/DMMSimulationSource,drivers/MultimeterDriver,
+       ocr/MultimeterOCR,ocr/GeminiVisionClient,MeasurementHistory}.js, src/ui/multimeter-ui.js.
+  ═══════════════════════════════════════════════════════ -->
+  <style>
+    .dmm-readout{text-align:center;padding:1.1rem;background:var(--bg-dark);border:1px solid var(--border);border-radius:.6rem;margin-bottom:.6rem;}
+    .dmm-readout .value{font-family:var(--font-mono);font-size:2.3rem;font-weight:800;color:var(--accent-y);}
+    .dmm-readout .unit{font-family:var(--font-mono);font-size:1.05rem;color:var(--text-mid);margin-left:.4rem;}
+    .dmm-readout .mode{font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-top:.35rem;}
+    .dmm-readout .meta-row{display:flex;justify-content:center;gap:.6rem;font-family:var(--font-mono);font-size:.66rem;color:var(--text-mid);margin-top:.3rem;}
+    .dmm-confirm-banner{font-family:var(--font-mono);font-size:.72rem;padding:.5rem .7rem;border-radius:.5rem;border:1px solid rgba(245,208,35,.4);background:rgba(245,208,35,.08);color:#F5D023;margin-bottom:.5rem;}
+    .dmm-cam-wrap{position:relative;background:#000;border:1px solid var(--border);border-radius:.6rem;overflow:hidden;margin-bottom:.5rem;max-height:280px;display:none;}
+    .dmm-cam-wrap.show{display:block;}
+    .dmm-cam-wrap video{width:100%;display:block;}
+    .dmm-history{display:flex;flex-direction:column;gap:.3rem;max-height:220px;overflow-y:auto;}
+    .dmm-history-row{display:flex;justify-content:space-between;gap:.4rem;align-items:center;font-family:var(--font-mono);font-size:.68rem;padding:.3rem .5rem;background:var(--bg-dark);border:1px solid var(--border);border-radius:.4rem;}
+  </style>
+  <div id="tab-multimetre-inject" style="display:none">
+    <div class="panel-header"><h3>📏 MULTIMÈTRE <small style="font-size:.6rem;color:var(--text-dim);font-weight:400;">(bêta)</small></h3>
+      <div class="panel-actions">
+        <button class="action-btn" onclick="window.HADJ_INSTR_DMM?.clearHistory()">🗑 Vider historique</button>
+      </div>
+    </div>
+    <div class="osc-note">⚙️ Moteur de mesure réel — la source active est indiquée en permanence. Une lecture caméra incertaine n'est jamais affichée comme acquise sans confirmation.</div>
+
+    <div class="osc-sources" id="dmmSources">
+      <div class="osc-src active" data-source="simulation" onclick="window.HADJ_INSTR_DMM?.selectSource('simulation')"><span class="ic">🟡</span>Simulation</div>
+      <div class="osc-src" data-source="camera" onclick="window.HADJ_INSTR_DMM?.selectSource('camera')"><span class="ic">📷</span>OCR Caméra</div>
+      <div class="osc-src" data-source="usb" onclick="window.HADJ_INSTR_DMM?.selectSource('usb')"><span class="ic">🔌</span>USB<span class="avail" id="dmmUsbAvail">…</span></div>
+      <div class="osc-src" data-source="bluetooth" onclick="window.HADJ_INSTR_DMM?.selectSource('bluetooth')"><span class="ic">📶</span>Bluetooth<span class="avail" id="dmmBtAvail">…</span></div>
+    </div>
+
+    <div class="osc-config active" id="dmmConfigSimulation">
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Mode</label><select id="dmmMode"></select></div>
+        <div class="osc-field"><label>Valeur cible</label><input type="number" id="dmmSimTrueValue" step="0.01" placeholder="(défaut du mode)"></div>
+        <div class="osc-field"><label>Bruit (%)</label><input type="number" id="dmmSimNoise" value="1.5" min="0" max="50" step="0.1"></div>
+      </div>
+      <div class="osc-controls" style="margin-top:.3rem;">
+        <button class="action-btn" onclick="window.HADJ_INSTR_DMM?.measureSimulated()">▶ Mesurer</button>
+        <button class="action-btn" id="dmmBtnContinuous" onclick="window.HADJ_INSTR_DMM?.toggleContinuous()">⏵ Continu</button>
+      </div>
+    </div>
+
+    <div class="osc-config" id="dmmConfigCamera">
+      <div class="osc-note">Le mode (tension, résistance…) est déterminé par la lecture de l'écran elle-même — inutile de le présélectionner.</div>
+      <div class="dmm-cam-wrap" id="dmmCamWrap"><video id="dmmVideo" autoplay playsinline muted></video></div>
+      <div class="osc-controls">
+        <button class="action-btn" onclick="window.HADJ_INSTR_DMM?.startCamera()">🎥 Démarrer caméra</button>
+        <button class="action-btn" onclick="window.HADJ_INSTR_DMM?.captureAndRead()">📸 Capturer &amp; Lire</button>
+        <button class="action-btn" onclick="window.HADJ_INSTR_DMM?.stopCamera()">⏹ Arrêter</button>
+      </div>
+      <div class="osc-note" id="dmmOcrStatus" data-i18n-dyn="1"></div>
+    </div>
+
+    <div class="osc-config" id="dmmConfigUsb">
+      <div class="osc-note" id="dmmUsbNote" data-i18n-dyn="1">…</div>
+      <button class="calc-btn" onclick="window.HADJ_INSTR_DMM?.requestUSB()">🔌 Sélectionner un appareil USB</button>
+    </div>
+
+    <div class="osc-config" id="dmmConfigBluetooth">
+      <div class="osc-note" id="dmmBtNote" data-i18n-dyn="1">…</div>
+      <button class="calc-btn" onclick="window.HADJ_INSTR_DMM?.requestBluetooth()">📶 Sélectionner un appareil Bluetooth</button>
+    </div>
+
+    <span class="osc-status-pill st-none" id="dmmStatusPill" data-i18n-dyn="1" style="display:inline-block;margin-bottom:.5rem;">⚪ NON CONNECTÉ</span>
+
+    <div id="dmmConfirmBanner" data-i18n-dyn="1"></div>
+
+    <div class="dmm-readout">
+      <span class="value" id="dmmValue">—</span><span class="unit" id="dmmUnit"></span>
+      <div class="mode" id="dmmModeLabel">Aucune mesure</div>
+      <div class="meta-row"><span id="dmmSourceBadge"></span><span id="dmmConfidence"></span></div>
+    </div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>📊 HISTORIQUE DES MESURES</h3></div>
+    <div class="dmm-history" id="dmmHistory" data-i18n-dyn="1"></div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>📡 MES INSTRUMENTS</h3>
+      <div class="panel-actions"><button class="action-btn" onclick="window.HADJ_INSTR_DMM?.searchInstruments()">🔍 Rechercher</button></div>
+    </div>
+    <table class="osc-instr-table"><tbody id="dmmInstrumentsBody" data-i18n-dyn="1"></tbody></table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       V6 Phase 3 — INSTRUMENT ENGINE : 〰 GÉNÉRATEUR + 🔋 ALIMENTATION
+       Voir src/core/instruments/drivers/{FunctionGeneratorDriver,PowerSupplyDriver}.js,
+       src/core/instruments/InstrumentSafety.js, src/ui/{generator-ui,powersupply-ui}.js.
+  ═══════════════════════════════════════════════════════ -->
+  <style>
+    .psu-danger-banner{font-family:var(--font-mono);font-size:.7rem;padding:.55rem .7rem;border-radius:.5rem;border:1px solid rgba(255,77,77,.4);background:rgba(255,77,77,.08);color:#FFB3B3;margin-bottom:.6rem;}
+    .psu-mains-banner{font-family:var(--font-head);font-size:.78rem;font-weight:800;letter-spacing:.03em;padding:.6rem .8rem;border-radius:.5rem;border:2px solid var(--accent-r);background:rgba(255,77,77,.16);color:#FFDADA;margin-bottom:.6rem;text-align:center;}
+  </style>
+  <div id="tab-generateur-inject" style="display:none">
+    <div class="panel-header"><h3>〰 GÉNÉRATEUR DE FONCTIONS <small style="font-size:.6rem;color:var(--text-dim);font-weight:400;">(bêta)</small></h3></div>
+    <div class="osc-note">⚙️ L'aperçu ci-dessous est un VRAI calcul (mêmes moteurs que la simulation oscilloscope) — jamais un signal réellement émis tant qu'aucun générateur n'est connecté.</div>
+
+    <div class="osc-config active">
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Forme</label><select id="genWaveform" onchange="window.HADJ_INSTR_GEN?.updatePreview()"></select></div>
+        <div class="osc-field"><label>Fréquence (Hz)</label><input type="number" id="genFreq" value="1000" min="0.1" step="1" oninput="window.HADJ_INSTR_GEN?.updatePreview()"></div>
+        <div class="osc-field"><label>Amplitude (Vpp)</label><input type="number" id="genAmp" value="5" min="0" step="0.1" oninput="window.HADJ_INSTR_GEN?.updatePreview()"></div>
+        <div class="osc-field"><label>Offset (V)</label><input type="number" id="genOffset" value="0" step="0.1" oninput="window.HADJ_INSTR_GEN?.updatePreview()"></div>
+      </div>
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Duty cycle (%)</label><input type="number" id="genDuty" value="50" min="1" max="99" step="1" oninput="window.HADJ_INSTR_GEN?.updatePreview()"></div>
+        <div class="osc-field"><label>Phase (°)</label><input type="number" id="genPhase" value="0" step="1" oninput="window.HADJ_INSTR_GEN?.updatePreview()"></div>
+      </div>
+    </div>
+
+    <div class="osc-canvas-wrap">
+      <canvas id="genCanvas" width="900" height="220"></canvas>
+      <div class="osc-cursor-info" id="genPreviewNote">🟡 APERÇU — aucun signal réellement émis</div>
+    </div>
+
+    <div class="osc-controls">
+      <button class="calc-btn" style="background:linear-gradient(135deg,rgba(245,166,35,.85),rgba(255,140,0,.85));" onclick="window.HADJ_INSTR_GEN?.sendOutput()">📤 Envoyer au générateur</button>
+    </div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>📡 MES INSTRUMENTS</h3></div>
+    <table class="osc-instr-table"><tbody id="genInstrumentsBody" data-i18n-dyn="1"></tbody></table>
+  </div>
+
+  <div id="tab-alimentation-inject" style="display:none">
+    <div class="panel-header"><h3>🔋 ALIMENTATION PROGRAMMABLE <small style="font-size:.6rem;color:var(--text-dim);font-weight:400;">(bêta)</small></h3></div>
+    <div class="psu-danger-banner">⚠️ ATTENTION — cette fonctionnalité peut alimenter un circuit réel une fois un instrument connecté. Ne jamais l'utiliser sur une installation secteur sans procédure de consignation.</div>
+    <div class="psu-mains-banner" id="psuMainsWarning" style="display:none;">⚠️ DANGER — TENSION SECTEUR</div>
+
+    <div class="osc-config active">
+      <div class="osc-field-row">
+        <div class="osc-field"><label>Tension (V)</label><input type="number" id="psuVoltage" value="5" min="0" step="0.1" oninput="window.HADJ_INSTR_PSU?.onVoltageChange()"></div>
+        <div class="osc-field"><label>Limite de courant (A)</label><input type="number" id="psuCurrentLimit" value="0.5" min="0" step="0.01"></div>
+      </div>
+      <div class="osc-field-row">
+        <div class="osc-field"><label>OVP (V, optionnel)</label><input type="number" id="psuOVP" step="0.1" placeholder="—"></div>
+        <div class="osc-field"><label>OCP (A, optionnel)</label><input type="number" id="psuOCP" step="0.01" placeholder="—"></div>
+      </div>
+    </div>
+
+    <div class="osc-controls">
+      <button class="calc-btn" style="background:linear-gradient(135deg,rgba(255,77,77,.85),rgba(200,40,40,.85));" onclick="window.HADJ_INSTR_PSU?.armOutput()">⚠️ Armer la sortie</button>
+    </div>
+    <div class="osc-note">SET → READ : sans instrument réel connecté, la lecture réelle après activation n'est jamais affichée (aucune valeur inventée).</div>
+
+    <div class="panel-header" style="margin-top:.4rem;"><h3>📡 MES INSTRUMENTS</h3></div>
+    <table class="osc-instr-table"><tbody id="psuInstrumentsBody" data-i18n-dyn="1"></tbody></table>
+  </div>
+
   <div class="text-input-bar" id="textInputBar">
     <div class="text-input-inner">
       <textarea
@@ -1334,6 +1646,9 @@
       <button class="ok-btn" onclick="saveGroqKey()">Activer le Schéma SVG</button>
     </div>
   </div>
+
+  <!-- Bouton SOS flottant permanent — visible depuis tous les onglets -->
+  <button class="sos-fab" id="sosFab" onclick="openSOS()" title="Urgence électrique — coupure / danger">🆘</button>
 
   <!-- SOS Overlay -->
   <div class="sos-overlay" id="sosOverlay">
@@ -1784,6 +2099,7 @@ RÈGLES DE RÉPONSE:
       // Sécurité
       "🔒 Procédure de Consignation":["🔒 Lockout Procedure","🔒 إجراء العزل والقفل","🔒 Vergrendelprocedure"],
       "🆘 MODE SOS COUPURE":["🆘 SOS POWER-CUT MODE","🆘 وضع SOS للقطع","🆘 SOS-STROOMUITVAL"],
+      "Urgence électrique — coupure / danger":["Electrical emergency — power cut / danger","طارئ كهربائي — قطع / خطر","Elektrische noodsituatie — stroomuitval / gevaar"],
       "⚠️ SEUILS DE DANGER AUTOMATIQUE":["⚠️ AUTOMATIC DANGER THRESHOLDS","⚠️ عتبات الخطر التلقائية","⚠️ AUTOMATISCHE GEVAARDREMPELS"],
       "⬇️ Export":["⬇️ Export","⬇️ تصدير","⬇️ Export"],
       "🗑️ Effacer":["🗑️ Clear","🗑️ مسح","🗑️ Wissen"],
@@ -1832,7 +2148,178 @@ RÈGLES DE RÉPONSE:
       "Question sur CE circuit détecté…":["Question about THIS detected circuit…","سؤال حول هذه الدارة المكتشفة…","Vraag over DIT gedetecteerde circuit…"],
       "🎙️ Mains-libres":["🎙️ Hands-free","🎙️ يدوي حر","🎙️ Handsfree"],
       "🔊 Assistant Live":["🔊 Live Assistant","🔊 مساعد مباشر","🔊 Live-assistent"],
-      "🎙️ Mode mains-libres":["🎙️ Hands-free mode","🎙️ وضع اليدين الحرّتين","🎙️ Handsfree-modus"]
+      "🎙️ Mode mains-libres":["🎙️ Hands-free mode","🎙️ وضع اليدين الحرّتين","🎙️ Handsfree-modus"],
+      // V6 — Instrument Engine : onglet 🔬 Oscilloscope
+      "🔬 OSCILLOSCOPE":["🔬 OSCILLOSCOPE","🔬 راسم الذبذبات","🔬 OSCILLOSCOOP"],
+      "(bêta)":["(beta)","(تجريبي)","(bèta)"],
+      "⇩ CSV":["⇩ CSV","⇩ CSV","⇩ CSV"],
+      "📸 PNG":["📸 PNG","📸 PNG","📸 PNG"],
+      "📄 + Rapport":["📄 + Report","📄 + تقرير","📄 + Rapport"],
+      "⚙️ Moteur de mesure réel — la source active est indiquée en permanence. Aucune mesure n'est jamais présentée comme réelle si elle ne l'est pas.":
+        ["⚙️ Real measurement engine — the active source is always shown. No measurement is ever presented as real when it isn't.",
+         "⚙️ محرك قياس حقيقي — يُعرض المصدر النشط دائمًا. لا تُعرض أي قياس كأنه حقيقي إن لم يكن كذلك.",
+         "⚙️ Echte meetengine — de actieve bron wordt altijd getoond. Geen meting wordt ooit als echt voorgesteld als dat niet zo is."],
+      "Simulation":["Simulation","محاكاة","Simulatie"],
+      "Import CSV/JSON":["Import CSV/JSON","استيراد CSV/JSON","CSV/JSON importeren"],
+      "USB":["USB","USB","USB"],
+      "Bluetooth":["Bluetooth","بلوتوث","Bluetooth"],
+      "Forme du signal":["Signal shape","شكل الإشارة","Signaalvorm"],
+      "Fréquence (Hz)":["Frequency (Hz)","التردد (هرتز)","Frequentie (Hz)"],
+      "Amplitude (Vpp)":["Amplitude (Vpp)","السعة (Vpp)","Amplitude (Vpp)"],
+      "Offset (V)":["Offset (V)","الإزاحة (V)","Offset (V)"],
+      "Duty cycle (%)":["Duty cycle (%)","نسبة التشغيل (%)","Duty cycle (%)"],
+      "Phase (°)":["Phase (°)","الطور (°)","Fase (°)"],
+      "Bruit (%)":["Noise (%)","الضجيج (%)","Ruis (%)"],
+      "Type de défaut":["Defect type","نوع العطل","Defecttype"],
+      "Écrêtage (clipping)":["Clipping","قص (Clipping)","Clipping"],
+      "Asymétrie":["Asymmetry","عدم تناظر","Asymmetrie"],
+      "Distorsion harmonique":["Harmonic distortion","تشوه توافقي","Harmonische vervorming"],
+      "Fichier CSV / JSON":["CSV / JSON file","ملف CSV / JSON","CSV/JSON-bestand"],
+      "🔌 Sélectionner un appareil USB":["🔌 Select a USB device","🔌 اختر جهاز USB","🔌 Selecteer een USB-apparaat"],
+      "📶 Sélectionner un appareil Bluetooth":["📶 Select a Bluetooth device","📶 اختر جهاز بلوتوث","📶 Selecteer een Bluetooth-apparaat"],
+      "▶ Mono":["▶ Single","▶ لقطة واحدة","▶ Enkel"],
+      "⏵ Continu":["⏵ Continuous","⏵ مستمر","⏵ Continu"],
+      "⏸ Capturer":["⏸ Capture","⏸ التقاط","⏸ Vastleggen"],
+      "Zoom":["Zoom","تكبير","Zoom"],
+      "📡 MES INSTRUMENTS":["📡 MY INSTRUMENTS","📡 أجهزتي","📡 MIJN INSTRUMENTEN"],
+      "🔍 Rechercher":["🔍 Search","🔍 بحث","🔍 Zoeken"],
+      "⚠️ Armer la sortie (PSU)":["⚠️ Arm output (PSU)","⚠️ تفعيل الخرج (مصدر الطاقة)","⚠️ Uitgang activeren (PSU)"],
+      "Vmax":["Vmax","Vmax","Vmax"],
+      "Vmin":["Vmin","Vmin","Vmin"],
+      "Vmoy":["Vavg","Vmoy.","Vgem"],
+      "Fréquence":["Frequency","التردد","Frequentie"],
+      "Période":["Period","الدورة","Periode"],
+      "Rapport cyclique":["Duty cycle","نسبة التشغيل","Duty cycle"],
+      "Temps de montée":["Rise time","زمن الصعود","Stijgtijd"],
+      "Temps de descente":["Fall time","زمن الهبوط","Daaltijd"],
+      "Dépassement":["Overshoot","تجاوز","Overshoot"],
+      "Sous-dépassement":["Undershoot","نقص التجاوز","Undershoot"],
+      "Bruit":["Noise","الضجيج","Ruis"],
+      "Décalage DC":["DC offset","إزاحة التيار المستمر","DC-offset"],
+      "Fondamentale":["Fundamental","الأساسية","Fundamentele"],
+      "Harmoniques":["Harmonics","التوافقيات","Harmonischen"],
+      "THD":["THD","THD","THD"],
+      "Plancher de bruit":["Noise floor","أرضية الضجيج","Ruisvloer"],
+      "Aucune acquisition":["No acquisition","لا يوجد التقاط","Geen acquisitie"],
+      "Continu":["Continuous","مستمر","Continu"],
+      "Pause":["Pause","إيقاف مؤقت","Pauze"],
+      "Oscilloscope":["Oscilloscope","راسم الذبذبات","Oscilloscoop"],
+      "Multimètre":["Multimeter","مقياس متعدد","Multimeter"],
+      "Générateur de fonctions":["Function generator","مولّد الإشارات","Functiegenerator"],
+      "Alimentation programmable":["Programmable power supply","مصدر طاقة قابل للبرمجة","Programmeerbare voeding"],
+      "Analyseur logique":["Logic analyzer","محلل منطقي","Logic analyzer"],
+      "Cliquez pour sélectionner un appareil USB réel (aucun pilote de mesure n'est encore câblé pour la plupart des instruments).":
+        ["Click to select a real USB device (no measurement driver is wired yet for most instruments).",
+         "انقر لاختيار جهاز USB حقيقي (لا يوجد بعد مشغّل قياس لمعظم الأجهزة).",
+         "Klik om een echt USB-apparaat te selecteren (voor de meeste instrumenten is nog geen meetstuurprogramma gekoppeld)."],
+      "Cliquez pour sélectionner un appareil Bluetooth réel (aucun pilote de mesure n'est encore câblé pour la plupart des instruments).":
+        ["Click to select a real Bluetooth device (no measurement driver is wired yet for most instruments).",
+         "انقر لاختيار جهاز بلوتوث حقيقي (لا يوجد بعد مشغّل قياس لمعظم الأجهزة).",
+         "Klik om een echt Bluetooth-apparaat te selecteren (voor de meeste instrumenten is nog geen meetstuurprogramma gekoppeld)."],
+      "Connexion USB non disponible dans ce navigateur. Utilisez l'application desktop / bridge HADJ.":
+        ["USB connection not available in this browser. Use the HADJ desktop app / bridge.",
+         "اتصال USB غير متوفر في هذا المتصفح. استخدم تطبيق سطح المكتب / الجسر الخاص بـ HADJ.",
+         "USB-verbinding niet beschikbaar in deze browser. Gebruik de HADJ desktop-app / bridge."],
+      "Connexion Bluetooth non disponible dans ce navigateur. Utilisez l'application desktop / bridge HADJ.":
+        ["Bluetooth connection not available in this browser. Use the HADJ desktop app / bridge.",
+         "اتصال بلوتوث غير متوفر في هذا المتصفح. استخدم تطبيق سطح المكتب / الجسر الخاص بـ HADJ.",
+         "Bluetooth-verbinding niet beschikbaar in deze browser. Gebruik de HADJ desktop-app / bridge."],
+      "Sinus":["Sine","جيبية","Sinus"],
+      "Carré":["Square","مربعة","Blok"],
+      "Triangle":["Triangle","مثلثية","Driehoek"],
+      "Dent de scie":["Sawtooth","منشارية","Zaagtand"],
+      "Impulsion":["Pulse","نبضة","Puls"],
+      "Redressé demi-onde":["Half-wave rectified","مقوَّمة نصف الموجة","Halve golf gelijkgericht"],
+      "Redressé pleine onde":["Full-wave rectified","مقوَّمة كاملة الموجة","Volle golf gelijkgericht"],
+      "PWM":["PWM","تضمين عرض النبضة (PWM)","PWM"],
+      "Signal audio composite":["Composite audio signal","إشارة صوتية مركّبة","Composiet audiosignaal"],
+      "DC":["DC","تيار مستمر (DC)","DC"],
+      "Signal avec défaut":["Faulty signal","إشارة معطوبة","Defect signaal"],
+      "Signal intermittent":["Intermittent signal","إشارة متقطعة","Intermitterend signaal"],
+      // V6 Phase 2 — Instrument Engine : onglet 📏 Multimètre
+      "Instruments":["Instruments","الأجهزة","Instrumenten"],
+      "📏 MULTIMÈTRE":["📏 MULTIMETER","📏 مقياس متعدد","📏 MULTIMETER"],
+      "🗑 Vider historique":["🗑 Clear history","🗑 مسح السجل","🗑 Geschiedenis wissen"],
+      "⚙️ Moteur de mesure réel — la source active est indiquée en permanence. Une lecture caméra incertaine n'est jamais affichée comme acquise sans confirmation.":
+        ["⚙️ Real measurement engine — the active source is always shown. An uncertain camera reading is never shown as acquired without confirmation.",
+         "⚙️ محرك قياس حقيقي — يُعرض المصدر النشط دائمًا. لا تُعرض قراءة كاميرا غير مؤكدة كمكتسبة دون تأكيد.",
+         "⚙️ Echte meetengine — de actieve bron wordt altijd getoond. Een onzekere cameraflezing wordt nooit als verworven getoond zonder bevestiging."],
+      "OCR Caméra":["Camera OCR","التعرف الضوئي بالكاميرا (OCR)","Camera-OCR"],
+      "Mode":["Mode","الوضع","Modus"],
+      "Valeur cible":["Target value","القيمة المستهدفة","Doelwaarde"],
+      "▶ Mesurer":["▶ Measure","▶ قياس","▶ Meten"],
+      "🎥 Démarrer caméra":["🎥 Start camera","🎥 تشغيل الكاميرا","🎥 Camera starten"],
+      "📸 Capturer & Lire":["📸 Capture & Read","📸 التقاط وقراءة","📸 Vastleggen & lezen"],
+      "⏹ Arrêter":["⏹ Stop","⏹ إيقاف","⏹ Stoppen"],
+      "Le mode (tension, résistance…) est déterminé par la lecture de l'écran elle-même — inutile de le présélectionner.":
+        ["The mode (voltage, resistance…) is determined by the screen reading itself — no need to preselect it.",
+         "يُحدَّد الوضع (جهد، مقاومة...) من قراءة الشاشة نفسها — لا حاجة لاختياره مسبقًا.",
+         "De modus (spanning, weerstand…) wordt bepaald door de schermaflezing zelf — hoeft niet vooraf geselecteerd te worden."],
+      "📊 HISTORIQUE DES MESURES":["📊 MEASUREMENT HISTORY","📊 سجل القياسات","📊 METINGGESCHIEDENIS"],
+      "Aucune mesure":["No measurement","لا يوجد قياس","Geen meting"],
+      "Aucune mesure enregistrée":["No measurement recorded","لم يُسجَّل أي قياس","Geen meting geregistreerd"],
+      "Confiance":["Confidence","الثقة","Betrouwbaarheid"],
+      "Lecture incertaine":["Uncertain reading","قراءة غير مؤكدة","Onzekere aflezing"],
+      "confiance insuffisante":["insufficient confidence","ثقة غير كافية","onvoldoende betrouwbaarheid"],
+      "Veuillez confirmer la mesure.":["Please confirm the measurement.","يرجى تأكيد القياس.","Bevestig de meting."],
+      "Confirmer":["Confirm","تأكيد","Bevestigen"],
+      "Rejeter":["Reject","رفض","Afwijzen"],
+      "Analyse en cours…":["Analyzing…","جارٍ التحليل…","Analyseren…"],
+      "Cliquez pour sélectionner un multimètre USB réel (aucun pilote de mesure n'est encore câblé pour la plupart des modèles).":
+        ["Click to select a real USB multimeter (no measurement driver is wired yet for most models).",
+         "انقر لاختيار مقياس متعدد USB حقيقي (لا يوجد بعد مشغّل قياس لمعظم الطرازات).",
+         "Klik om een echte USB-multimeter te selecteren (voor de meeste modellen is nog geen meetstuurprogramma gekoppeld)."],
+      "Cliquez pour sélectionner un multimètre Bluetooth réel (aucun pilote de mesure n'est encore câblé pour la plupart des modèles).":
+        ["Click to select a real Bluetooth multimeter (no measurement driver is wired yet for most models).",
+         "انقر لاختيار مقياس متعدد بلوتوث حقيقي (لا يوجد بعد مشغّل قياس لمعظم الطرازات).",
+         "Klik om een echte Bluetooth-multimeter te selecteren (voor de meeste modellen is nog geen meetstuurprogramma gekoppeld)."],
+      "Tension DC":["DC Voltage","جهد التيار المستمر","DC-spanning"],
+      "Tension AC":["AC Voltage","جهد التيار المتردد","AC-spanning"],
+      "Résistance":["Resistance","المقاومة","Weerstand"],
+      "Continuité":["Continuity","الاستمرارية","Continuïteit"],
+      "Diode":["Diode","صمام ثنائي","Diode"],
+      "Capacité":["Capacitance","السعة","Capaciteit"],
+      "Courant":["Current","التيار","Stroom"],
+      "Mode inconnu":["Unknown mode","وضع غير معروف","Onbekende modus"],
+      // V6 Phase 3 — Instrument Engine : onglets 〰 Générateur + 🔋 Alimentation
+      "〰 GÉNÉRATEUR DE FONCTIONS":["〰 FUNCTION GENERATOR","〰 مولّد الإشارات","〰 FUNCTIEGENERATOR"],
+      "⚙️ L'aperçu ci-dessous est un VRAI calcul (mêmes moteurs que la simulation oscilloscope) — jamais un signal réellement émis tant qu'aucun générateur n'est connecté.":
+        ["⚙️ The preview below is a REAL calculation (same engines as the oscilloscope simulation) — never a signal actually emitted while no generator is connected.",
+         "⚙️ المعاينة أدناه حساب حقيقي (نفس محركات محاكاة الراسم) — ليست إشارة مُرسلة فعليًا ما دام لا يوجد مولّد متصل.",
+         "⚙️ De onderstaande preview is een ECHTE berekening (dezelfde engines als de oscilloscoopsimulatie) — nooit een daadwerkelijk uitgezonden signaal zolang er geen generator is verbonden."],
+      "Forme":["Shape","الشكل","Vorm"],
+      "🟡 APERÇU — aucun signal réellement émis":["🟡 PREVIEW — no signal actually emitted","🟡 معاينة — لا إشارة مُرسلة فعليًا","🟡 PREVIEW — geen daadwerkelijk signaal uitgezonden"],
+      "APERÇU — aucun signal réellement émis":["PREVIEW — no signal actually emitted","معاينة — لا إشارة مُرسلة فعليًا","PREVIEW — geen daadwerkelijk signaal uitgezonden"],
+      "📤 Envoyer au générateur":["📤 Send to generator","📤 إرسال إلى المولّد","📤 Naar generator sturen"],
+      "🔋 ALIMENTATION PROGRAMMABLE":["🔋 PROGRAMMABLE POWER SUPPLY","🔋 مصدر طاقة قابل للبرمجة","🔋 PROGRAMMEERBARE VOEDING"],
+      "⚠️ ATTENTION — cette fonctionnalité peut alimenter un circuit réel une fois un instrument connecté. Ne jamais l'utiliser sur une installation secteur sans procédure de consignation.":
+        ["⚠️ WARNING — this feature can energize a real circuit once an instrument is connected. Never use it on a mains installation without a lockout procedure.",
+         "⚠️ تنبيه — قد تُغذّي هذه الميزة دارة حقيقية بمجرد اتصال جهاز. لا تستخدمها أبدًا على تمديد كهربائي متصل بالشبكة دون إجراء عزل.",
+         "⚠️ WAARSCHUWING — deze functie kan een echt circuit onder spanning zetten zodra een instrument is verbonden. Nooit gebruiken op een netvoedingsinstallatie zonder vergrendelingsprocedure."],
+      "⚠️ DANGER — TENSION SECTEUR":["⚠️ DANGER — MAINS VOLTAGE","⚠️ خطر — جهد الشبكة الكهربائية","⚠️ GEVAAR — NETSPANNING"],
+      "Tension (V)":["Voltage (V)","الجهد (V)","Spanning (V)"],
+      "Limite de courant (A)":["Current limit (A)","حد التيار (A)","Stroomlimiet (A)"],
+      "OVP (V, optionnel)":["OVP (V, optional)","OVP (V، اختياري)","OVP (V, optioneel)"],
+      "OCP (A, optionnel)":["OCP (A, optional)","OCP (A، اختياري)","OCP (A, optioneel)"],
+      "⚠️ Armer la sortie":["⚠️ Arm output","⚠️ تفعيل الخرج","⚠️ Uitgang activeren"],
+      "SET → READ : sans instrument réel connecté, la lecture réelle après activation n'est jamais affichée (aucune valeur inventée).":
+        ["SET → READ: with no real instrument connected, the real reading after activation is never shown (no value is ever invented).",
+         "ضبط → قراءة: بدون جهاز حقيقي متصل، لا تُعرض القراءة الحقيقية بعد التفعيل أبدًا (لا قيمة مُختلقة).",
+         "SET → READ: zonder een echt verbonden instrument wordt de werkelijke aflezing na activering nooit getoond (nooit een verzonnen waarde)."],
+      "🔋 Pilotage de l'alimentation programmable : onglet dédié 🔋 Alimentation.":
+        ["🔋 Programmable power supply control: dedicated 🔋 Power Supply tab.",
+         "🔋 التحكم بمصدر الطاقة القابل للبرمجة: علامة تبويب مخصّصة 🔋 التغذية.",
+         "🔋 Besturing van de programmeerbare voeding: aparte tab 🔋 Voeding."],
+      // V6 Phase 4 — pont points de test / diagnostic guidé (§8/§22/§25)
+      "🎯 POINT DE TEST & DIAGNOSTIC GUIDÉ":["🎯 TEST POINT & GUIDED DIAGNOSIS","🎯 نقطة الاختبار والتشخيص الموجّه","🎯 TESTPUNT & BEGELEIDE DIAGNOSE"],
+      "Aucun scan de circuit disponible — utilisez « 🔬 SCAN CIRCUIT COMPLET » (Analyseur de circuits) pour activer la comparaison aux points de test.":
+        ["No circuit scan available — use « 🔬 FULL CIRCUIT SCAN » (Circuit Analyzer) to enable test-point comparison.",
+         "لا يوجد مسح للدارة — استخدم « 🔬 مسح دارة كامل » (محلل الدارات) لتفعيل مقارنة نقاط الاختبار.",
+         "Geen circuitscan beschikbaar — gebruik « 🔬 VOLLEDIGE CIRCUITSCAN » (Circuitanalyzer) om testpuntvergelijking te activeren."],
+      "Point de test":["Test point","نقطة الاختبار","Testpunt"],
+      "📍 Comparer au point sélectionné":["📍 Compare to selected point","📍 مقارنة بالنقطة المحددة","📍 Vergelijken met geselecteerd punt"],
+      "🤖 Diagnostic automatique":["🤖 Automatic diagnosis","🤖 تشخيص تلقائي","🤖 Automatische diagnose"],
+      "Attendu":["Expected","متوقَّع","Verwacht"]
     };
 
     // Construit I18N {en:{fr->tr}, ar:{...}, nl:{...}}
@@ -3534,16 +4021,29 @@ let searchTerm = '';
       const i = parseFloat(document.getElementById('ohm_i').value);
       const known = [!isNaN(u), !isNaN(r), !isNaN(i)].filter(Boolean).length;
       if (known < 2) { setResult('ohm_result','⚠️ Entrez au moins 2 valeurs.',false); return; }
-      if (!isNaN(r) && !isNaN(i)) setResult('ohm_result', `U = ${(r*i).toFixed(4)} V  (R=${r}Ω × I=${i}A)`);
-      else if (!isNaN(u) && !isNaN(i)) setResult('ohm_result', `R = ${(u/i).toFixed(4)} Ω  (U=${u}V ÷ I=${i}A)`);
-      else if (!isNaN(u) && !isNaN(r)) setResult('ohm_result', `I = ${(u/r).toFixed(4)} A  (U=${u}V ÷ R=${r}Ω)`);
+      if ([u,r,i].some(v=>!isNaN(v) && v<0)) { setResult('ohm_result','⚠️ Les valeurs négatives n\'ont pas de sens ici (tension, résistance et courant sont des grandeurs positives).',false); return; }
+      if (!isNaN(r) && !isNaN(i)) {
+        if (r===0 && i>0) { setResult('ohm_result','🔴 R = 0 Ω avec un courant non nul : court-circuit — U serait nul pour ce courant, vérifiez le montage.',false); return; }
+        setResult('ohm_result', `U = ${(r*i).toFixed(4)} V  (R=${r}Ω × I=${i}A)`);
+      }
+      else if (!isNaN(u) && !isNaN(i)) {
+        if (i===0) { setResult('ohm_result', u>0 ? '⚠️ I = 0 A avec U ≠ 0 : circuit ouvert — R serait infinie.' : '⚠️ Entrez un courant non nul pour calculer R.',false); return; }
+        setResult('ohm_result', `R = ${(u/i).toFixed(4)} Ω  (U=${u}V ÷ I=${i}A)`);
+      }
+      else if (!isNaN(u) && !isNaN(r)) {
+        if (r===0) { setResult('ohm_result', u>0 ? '🔴 R = 0 Ω avec U ≠ 0 : court-circuit — courant théoriquement infini, danger.' : '⚠️ Entrez une résistance non nulle pour calculer I.',false); return; }
+        setResult('ohm_result', `I = ${(u/r).toFixed(4)} A  (U=${u}V ÷ R=${r}Ω)`);
+      }
     };
 
     window.calcPower = function() {
       const u = parseFloat(document.getElementById('pw_u').value);
       const i = parseFloat(document.getElementById('pw_i').value);
-      const fp = parseFloat(document.getElementById('pw_fp').value) || 1;
+      const fpRaw = document.getElementById('pw_fp').value;
+      const fp = fpRaw.trim()==='' ? 1 : parseFloat(fpRaw);
       if (isNaN(u) || isNaN(i)) { setResult('pw_result','⚠️ Entrez U et I.',false); return; }
+      if (u<0 || i<0) { setResult('pw_result','⚠️ Tension et courant doivent être positifs.',false); return; }
+      if (isNaN(fp) || fp<0 || fp>1) { setResult('pw_result','⚠️ Le facteur de puissance (cos φ) doit être compris entre 0 et 1.',false); return; }
       const S = u * i;
       const P = S * fp;
       const Q = S * Math.sqrt(1 - fp * fp);
@@ -3555,7 +4055,11 @@ let searchTerm = '';
       const l = parseFloat(document.getElementById('cable_l').value);
       const u = parseFloat(document.getElementById('cable_u').value);
       const du_pct = parseFloat(document.getElementById('cable_du').value) / 100;
-      if (isNaN(i) || isNaN(l)) { setResult('cable_result','⚠️ Entrez I et L.',false); return; }
+      // NB: u et du_pct n'étaient historiquement PAS vérifiés ici — un champ
+      // vide produisait silencieusement "NaN mm²" au lieu d'un message clair.
+      if (isNaN(i) || isNaN(l) || isNaN(u) || isNaN(du_pct)) { setResult('cable_result','⚠️ Entrez I, L, U et la chute de tension max.',false); return; }
+      if (i<=0 || l<=0 || u<=0) { setResult('cable_result','⚠️ Courant, longueur et tension doivent être des valeurs positives.',false); return; }
+      if (du_pct<=0) { setResult('cable_result','⚠️ La chute de tension max doit être > 0% (0% donnerait une section infinie).',false); return; }
       const rho = 0.0225; // cuivre Ω·mm²/m
       const delta_u = u * du_pct;
       const S = (2 * rho * l * i) / delta_u;
@@ -3569,8 +4073,11 @@ let searchTerm = '';
     window.calcDisj = function() {
       const p = parseFloat(document.getElementById('dj_p').value);
       const u = parseFloat(document.getElementById('dj_u').value);
-      const fp = parseFloat(document.getElementById('dj_fp').value) || 1;
-      if (isNaN(p)) { setResult('dj_result','⚠️ Entrez la puissance.',false); return; }
+      const fpRaw = document.getElementById('dj_fp').value;
+      const fp = fpRaw.trim()==='' ? 1 : parseFloat(fpRaw);
+      if (isNaN(p) || isNaN(u)) { setResult('dj_result','⚠️ Entrez la puissance et la tension.',false); return; }
+      if (p<=0) { setResult('dj_result','⚠️ La puissance doit être positive.',false); return; }
+      if (isNaN(fp) || fp<=0 || fp>1) { setResult('dj_result','⚠️ Le cos φ doit être compris entre 0 (exclu) et 1.',false); return; }
       const i = u === 400 ? p / (u * fp * Math.sqrt(3)) : p / (u * fp);
       const calibres = [2, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125];
       const cal = calibres.find(c => c >= i) || '> 125';
@@ -3582,6 +4089,8 @@ let searchTerm = '';
       const r1 = parseFloat(document.getElementById('dv_r1').value);
       const r2 = parseFloat(document.getElementById('dv_r2').value);
       if ([vin,r1,r2].some(isNaN)) { setResult('dv_result','⚠️ Remplissez tous les champs.',false); return; }
+      if (r1<0 || r2<0) { setResult('dv_result','⚠️ Les résistances doivent être positives.',false); return; }
+      if (r1+r2===0) { setResult('dv_result','🔴 R1 + R2 = 0 Ω : court-circuit, pont diviseur non défini.',false); return; }
       const vout = vin * r2 / (r1 + r2);
       const i = vin / (r1 + r2) * 1000;
       setResult('dv_result', `Vout = ${vout.toFixed(4)} V  (I pont = ${i.toFixed(3)} mA)`);
@@ -3593,9 +4102,10 @@ let searchTerm = '';
       const vf_custom = parseFloat(document.getElementById('led_vf_custom').value);
       const vf = sel === 'custom' ? vf_custom : parseFloat(sel);
       const iff = parseFloat(document.getElementById('led_if').value) / 1000;
-      if ([vcc, vf, iff].some(isNaN) || vcc <= vf) {
-        setResult('led_result', vcc <= vf ? '⚠️ Vcc doit être > Vf !' : '⚠️ Remplissez tous les champs.', false); return;
-      }
+      if ([vcc, vf, iff].some(isNaN)) { setResult('led_result','⚠️ Remplissez tous les champs.',false); return; }
+      if (vcc<=0 || vf<=0) { setResult('led_result','⚠️ Vcc et Vf doivent être positifs.',false); return; }
+      if (iff<=0) { setResult('led_result','⚠️ Le courant If doit être positif (non nul).',false); return; }
+      if (vcc <= vf) { setResult('led_result','⚠️ Vcc doit être > Vf ! (sinon la LED ne s\'allume pas, aucune résistance ne peut compenser)',false); return; }
       const R = (vcc - vf) / iff;
       const normes_R = [10,22,33,47,68,100,150,220,270,330,470,560,680,1000,1200,1500,1800,2200,2700,3300,4700,5600,6800,10000];
       const Rnorm = normes_R.find(r => r >= R) || Math.ceil(R);
@@ -3612,6 +4122,9 @@ let searchTerm = '';
       const r2 = parseFloat(document.getElementById('ne_r2').value);
       const c = parseFloat(document.getElementById('ne_c').value) * 1e-6;
       if ([r1,r2,c].some(isNaN)) { setResult('ne_result','⚠️ Remplissez tous les champs.',false); return; }
+      if (r1<0 || r2<0 || c<0) { setResult('ne_result','⚠️ R1, R2 et C doivent être positifs.',false); return; }
+      if (r2<=0) { setResult('ne_result','⚠️ R2 doit être strictement positif (il fixe la décharge du condensateur).',false); return; }
+      if (c===0) { setResult('ne_result','⚠️ C doit être non nul.',false); return; }
       const f = 1.44 / ((r1 + 2 * r2) * c);
       const t_h = 0.693 * (r1 + r2) * c;
       const t_l = 0.693 * r2 * c;
@@ -3794,7 +4307,11 @@ let searchTerm = '';
         {id:'vision', inj:'tab-vision-inject'},
         {id:'securite', inj:'tab-securite-inject'},
         {id:'historique', inj:'tab-historique-inject'},
-        {id:'atelier', inj:'tab-atelier-inject'}
+        {id:'atelier', inj:'tab-atelier-inject'},
+        {id:'oscilloscope', inj:'tab-oscilloscope-inject'},
+        {id:'multimetre', inj:'tab-multimetre-inject'},
+        {id:'generateur', inj:'tab-generateur-inject'},
+        {id:'alimentation', inj:'tab-alimentation-inject'}
       ];
       tabs.forEach(t=>{
         const src = document.getElementById(t.inj);
@@ -3819,6 +4336,10 @@ let searchTerm = '';
           if(tab.dataset.tab==='normes')renderNormes();
           if(tab.dataset.tab==='historique')renderHistory();
           if(tab.dataset.tab==='securite')renderSecJournal();
+          if(tab.dataset.tab==='oscilloscope') window.HADJ_INSTR?.onTabShown();
+          if(tab.dataset.tab==='multimetre') window.HADJ_INSTR_DMM?.onTabShown();
+          if(tab.dataset.tab==='generateur') window.HADJ_INSTR_GEN?.onTabShown();
+          if(tab.dataset.tab==='alimentation') window.HADJ_INSTR_PSU?.onTabShown();
         });
       });
     })();
@@ -3834,6 +4355,8 @@ let searchTerm = '';
       const i2 = parseFloat(document.getElementById('tri_i2').value)||0;
       const i3 = parseFloat(document.getElementById('tri_i3').value)||0;
       if(!i1&&!i2&&!i3){setResult('tri_result','⚠️ Entrez au moins un courant de phase.',false);return;}
+      if(i1<0||i2<0||i3<0){setResult('tri_result','⚠️ Les courants de phase doivent être positifs.',false);return;}
+      if(fp<=0||fp>1){setResult('tri_result','⚠️ Le cos φ doit être compris entre 0 (exclu) et 1.',false);return;}
       const Imoy = (i1+i2+i3)/3;
       const P = Math.sqrt(3)*u*Imoy*fp;
       const S = Math.sqrt(3)*u*Imoy;
@@ -3848,10 +4371,20 @@ let searchTerm = '';
 
     window.calcQc = function() {
       const P = parseFloat(document.getElementById('qc_p').value);
-      const fp1 = parseFloat(document.getElementById('qc_fp1').value)||0.75;
-      const fp2 = parseFloat(document.getElementById('qc_fp2').value)||0.95;
-      const u = parseFloat(document.getElementById('qc_u').value)||400;
+      // NB: `parseFloat(...)||défaut` écrase silencieusement une saisie
+      // valide de 0 (0 est falsy en JS) — on teste la chaîne brute à la
+      // place, même correctif que celui appliqué au multimètre virtuel.
+      const raw1 = document.getElementById('qc_fp1').value.trim();
+      const raw2 = document.getElementById('qc_fp2').value.trim();
+      const rawU = document.getElementById('qc_u').value.trim();
+      const fp1 = raw1==='' ? 0.75 : parseFloat(raw1);
+      const fp2 = raw2==='' ? 0.95 : parseFloat(raw2);
+      const u = rawU==='' ? 400 : parseFloat(rawU);
       if(isNaN(P)){setResult('qc_result','⚠️ Entrez P.',false);return;}
+      if(P<=0){setResult('qc_result','⚠️ La puissance active doit être positive.',false);return;}
+      if(isNaN(fp1)||isNaN(fp2)||fp1<=0||fp1>1||fp2<=0||fp2>1){setResult('qc_result','⚠️ Les deux cos φ doivent être compris entre 0 (exclu) et 1.',false);return;}
+      if(isNaN(u)||u<=0){setResult('qc_result','⚠️ La tension doit être positive.',false);return;}
+      if(fp2<=fp1){setResult('qc_result','⚠️ Le cos φ visé doit être supérieur au cos φ actuel (sinon aucune compensation n\'est nécessaire).',false);return;}
       const tan1 = Math.tan(Math.acos(fp1));
       const tan2 = Math.tan(Math.acos(fp2));
       const Qc = P*(tan1-tan2);
@@ -3863,10 +4396,18 @@ let searchTerm = '';
 
     window.calcDjMoteur = function() {
       const P = parseFloat(document.getElementById('djm_p').value);
-      const fp = parseFloat(document.getElementById('djm_fp').value)||0.85;
-      const eta = parseFloat(document.getElementById('djm_eta').value)||0.88;
+      const rawFp = document.getElementById('djm_fp').value.trim();
+      const rawEta = document.getElementById('djm_eta').value.trim();
+      const fp = rawFp==='' ? 0.85 : parseFloat(rawFp);
+      const eta = rawEta==='' ? 0.88 : parseFloat(rawEta);
       const courbe = document.getElementById('djm_courbe').value;
       if(isNaN(P)){setResult('djm_result','⚠️ Entrez la puissance.',false);return;}
+      if(P<=0){setResult('djm_result','⚠️ La puissance doit être positive.',false);return;}
+      if(isNaN(fp)||fp<=0||fp>1){setResult('djm_result','⚠️ Le cos φ doit être compris entre 0 (exclu) et 1.',false);return;}
+      if(isNaN(eta)||eta<=0||eta>1){setResult('djm_result','⚠️ Le rendement η doit être compris entre 0 (exclu) et 1.',false);return;}
+      // Hypothèse figée : alimentation triphasée 400V, longueur de câble 20m,
+      // chute de tension max 5% — rendu explicite dans le résultat plutôt que
+      // silencieux, pour ne pas laisser croire que ces valeurs sont mesurées.
       const In = P*1000/(Math.sqrt(3)*400*fp*eta);
       const Id = courbe==='D'?In*15:courbe==='MA'?In*12:In*8;
       const calibres=[2,4,6,10,16,20,25,32,40,50,63,80,100];
@@ -3875,7 +4416,7 @@ let searchTerm = '';
       const rho=0.0225;
       const S_min = (2*rho*20*In)/(400*0.05);
       const S = section_normes.find(s=>s>=S_min)||section_normes[section_normes.length-1];
-      setResult('djm_result',`In=${In.toFixed(2)}A | Disj.${cal}A courbe ${courbe} (Id≤${Id.toFixed(0)}A) | Section≥${S}mm² | Disj.mag.≥${(Id*1.3).toFixed(0)}A`);
+      setResult('djm_result',`In=${In.toFixed(2)}A | Disj.${cal}A courbe ${courbe} (Id≤${Id.toFixed(0)}A) | Section≥${S}mm² | Disj.mag.≥${(Id*1.3).toFixed(0)}A · Hypothèses: 400V tri, câble 20m, chute max 5%`);
       speak(`Courant nominal moteur ${In.toFixed(1)} ampères, disjoncteur ${cal} ampères courbe ${courbe}`);
     };
 
@@ -3887,8 +4428,11 @@ let searchTerm = '';
     window.calcConv = function(){
       const t = document.getElementById('conv_type').value;
       const v = parseFloat(document.getElementById('conv_val').value);
-      const fp = parseFloat(document.getElementById('conv_fp').value)||0.85;
+      const rawFp = document.getElementById('conv_fp').value.trim();
+      const fp = rawFp==='' ? 0.85 : parseFloat(rawFp);
       if(isNaN(v)){setResult('conv_result','⚠️ Entrez une valeur.',false);return;}
+      if(v<0){setResult('conv_result','⚠️ La valeur à convertir doit être positive.',false);return;}
+      if((t==='amp_kva'||t==='kva_kw'||t==='kw_kva') && (isNaN(fp)||fp<=0||fp>1)){setResult('conv_result','⚠️ Le cos φ doit être compris entre 0 (exclu) et 1.',false);return;}
       const AWG_TABLE={0:53.5,1:42.4,2:33.6,4:21.2,6:13.3,8:8.37,10:5.26,12:3.31,14:2.08,16:1.31,18:0.823,20:0.519};
       let r='';
       switch(t){
@@ -4217,6 +4761,10 @@ let searchTerm = '';
         e.photo?`<div class="section"><h3>Photo du circuit</h3><img src="${e.photo}" style="max-width:100%;"></div>`:'',
         e.messages.length?`<div class="section"><h3>Échanges avec l'Expert IA</h3>${e.messages.map(m=>`<p><strong>${m.role==='user'?'Technicien':'Expert IA'}:</strong> ${m.text}</p>`).join('')}</div>`:'',
         e.sig?`<div class="section"><h3>Signature client</h3><img class="sig" src="${e.sig}"></div>`:'',
+        window.__renderScopeReportSection ? window.__renderScopeReportSection() : '',
+        window.__renderDMMReportSection ? window.__renderDMMReportSection() : '',
+        window.__renderGenReportSection ? window.__renderGenReportSection() : '',
+        window.__renderPSUReportSection ? window.__renderPSUReportSection() : '',
         '<button class="no-print" onclick="window.print()" style="margin-top:20px;padding:10px 18px;background:#F5A623;border:none;border-radius:6px;font-weight:bold;cursor:pointer">🖨️ Imprimer / Enregistrer en PDF</button>',
         '</body></html>'
       ].join('');
@@ -6347,20 +6895,50 @@ Schéma JSON attendu:
         }).join('');
         q('caPane-points').innerHTML=`<div class="ca-hint" style="margin-bottom:.7rem">Mesurez réellement au multimètre entre ce point et la masse (sauf indication contraire), puis saisissez la valeur lue. La comparaison à la valeur attendue (± tolérance) est automatique — ce n'est pas l'application qui mesure.</div>`+rows;
       }
+      // Logique partagée d'enregistrement d'une mesure de point de test —
+      // utilisée par la saisie manuelle du multimètre virtuel (ci-dessous)
+      // ET par window.__CA_recordTestPointMeasurement (pont vers les
+      // modules Instrument Engine isolés, ex: oscilloscope-ui.js), pour
+      // ne jamais dupliquer cette logique.
+      function recordTpMeasurement(tp,raw,sourceLabel){
+        const num=parseFloat(String(raw).replace(',','.'));
+        const evalRes=isNaN(num)?{status:'info',text:'Enregistrée (valeur non numérique).'}:tpEvaluate(tp.expectedText,num);
+        const entry={tpId:tp.id,netId:tp.netId,label:tp.label,expected:tp.expectedText,measured:raw,status:evalRes.status,text:evalRes.text,ts:new Date().toLocaleTimeString('fr-FR'),source:sourceLabel||'multimètre (saisie manuelle)'};
+        const existing=CA.measurements.find(x=>x.tpId===tp.id);
+        if(existing) Object.assign(existing,entry); else CA.measurements.push(entry);
+        if(evalRes.status==='bad' && !CA.faults.some(f=>f.__tpId===tp.id)){
+          CA.faults.unshift({severity:'critique',component:tp.id+' · '+tp.label,reason:`Mesure réelle hors tolérance : attendu ${tp.expectedText}, mesuré ${raw}.`,fix:'Mesure confirmée sur le terrain — à traiter avant les anomalies simplement estimées.',confidence:0.95,__tpId:tp.id});
+        }
+        renderPoints(CA.graph); renderErreurs(); caSaveState();
+        return evalRes;
+      }
       window.__CA_tpSubmit=function(tpId){
         const tp=(CA.testPoints||[]).find(x=>x.id===tpId); if(!tp) return;
         const inp=q('tpInput-'+tpId); const raw=inp?inp.value.trim():'';
         if(!raw){ window.__toast&&window.__toast('Saisissez une valeur mesurée',true); return; }
-        const num=parseFloat(raw.replace(',','.'));
-        const evalRes=isNaN(num)?{status:'info',text:'Enregistrée (valeur non numérique).'}:tpEvaluate(tp.expectedText,num);
-        const entry={tpId,netId:tp.netId,label:tp.label,expected:tp.expectedText,measured:raw,status:evalRes.status,text:evalRes.text,ts:new Date().toLocaleTimeString('fr-FR')};
-        const existing=CA.measurements.find(x=>x.tpId===tpId);
-        if(existing) Object.assign(existing,entry); else CA.measurements.push(entry);
-        if(evalRes.status==='bad' && !CA.faults.some(f=>f.__tpId===tpId)){
-          CA.faults.unshift({severity:'critique',component:tp.id+' · '+tp.label,reason:`Mesure réelle hors tolérance : attendu ${tp.expectedText}, mesuré ${raw}.`,fix:'Mesure confirmée sur le terrain — à traiter avant les anomalies simplement estimées.',confidence:0.95,__tpId:tpId});
-        }
-        renderPoints(CA.graph); renderErreurs(); caSaveState();
+        const evalRes=recordTpMeasurement(tp,raw);
         window.__toast&&window.__toast('Mesure enregistrée : '+evalRes.text);
+      };
+
+      // ── Ponts en lecture seule vers l'Instrument Engine (src/ui/*.js) ──
+      // Aucune logique métier ici : uniquement des accès à l'état déjà
+      // calculé par ce module, pour que l'onglet 🔬 Oscilloscope puisse
+      // guider une mesure sur un point de test réel sans dupliquer
+      // CircuitGraph/TestPoints/Analysis/Fault.
+      window.__CA_getTestPoints=function(){
+        if(!CA.graph) return null;
+        if(!CA.testPoints) CA.testPoints=TestPoints.build(CA.graph);
+        return CA.testPoints.map(tp=>({...tp, measurement:(CA.measurements||[]).find(m=>m.tpId===tp.id)||null}));
+      };
+      window.__CA_getCircuitSummary=function(){
+        if(!CA.graph) return null;
+        return { circuitType:CA.graph.meta?.circuit_type||null, componentCount:CA.graph.components.length, netCount:CA.graph.nets.length, dangerous:!!CA.dangerous };
+      };
+      window.__CA_recordTestPointMeasurement=function(tpId,measuredNum,sourceLabel){
+        const tp=(CA.testPoints||[]).find(x=>x.id===tpId);
+        if(!tp) return {status:'info',text:'Point de test inconnu.'};
+        if(caSafetyLocked()){ return {status:'info',text:'Consignation requise avant d\'enregistrer une mesure sur ce montage.'}; }
+        return recordTpMeasurement(tp,measuredNum,sourceLabel);
       };
 
       // ── Comparaison ──
@@ -6492,7 +7070,13 @@ Schéma JSON attendu:
     // ── V5 i18n : application de la langue sauvegardée, APRÈS toute l'init
     //    (y compris injectV4Tabs) pour couvrir l'ensemble de l'interface ──
     try{ applyLang(state.lang); }catch(e){ console.warn('i18n init:',e); }
-  
+
   </script>
+
+  <!-- V6 — Instrument Engine (modules ES isolés, un par instrument) -->
+  <script type="module" src="./src/ui/oscilloscope-ui.js"></script>
+  <script type="module" src="./src/ui/multimeter-ui.js"></script>
+  <script type="module" src="./src/ui/generator-ui.js"></script>
+  <script type="module" src="./src/ui/powersupply-ui.js"></script>
 </body>
 </html>
